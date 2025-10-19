@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вечная память: 80 лет освобождения и победы</title>
+    <link rel="icon" type="image/jpg" href="favicon.png">
+    <style>
+        /* Подключение Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
+
+        /* Общие стили */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #f4f4f4, #ddd);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: url('баннер.png') center/cover no-repeat;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3em;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        nav {
+            background: #333;
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        nav a {
+            color: white;
+            margin: 0 20px;
+            text-decoration: none;
+            font-size: 1.3em;
+        }
+
+        section {
+            padding: 50px;
+            margin: 30px auto;
+            max-width: 1200px;
+            background: rgba(255,255,255,0.9);
+            box-shadow: 0 0 20px rgba(0,0,0,0.15);
+            border-radius: 12px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s, transform 1s;
+        }
+
+        section.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Стили для заголовков */
+        .info h3 {
+            margin-bottom: 0;
+            text-indent: 0;
+        }
+
+        .info h4 {
+            margin-bottom: 0;
+            text-indent: 0;
+            font-size: 1.6em;
+        }
+
+        /* Карусель */
+        .carousel {
+            position: relative;
+            max-width: 800px;
+            margin: 20px auto;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-item {
+            min-width: 100%;
+            text-align: center;
+            padding: 20px;
+            background: #eee;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.5s;
+            cursor: pointer;
+        }
+
+        .carousel-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .carousel-button:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        /* Текстовая информация */
+        .info {
+            margin-top: 40px;
+            line-height: 1.6;
+        }
+
+        .info p, .text-with-image p {
+            text-align: justify;
+            text-indent: 0;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .not-bold {
+            font-weight: normal;
+        }
+
+        .float-image {
+            float: left;
+            width: 100px;
+            height: auto;
+            margin: 0;
+            margin-right: 15px;
+            margin-bottom: 0;
+        }
+
+        .image-caption {
+            font-style: italic;
+            font-size: 0.9em;
+            color: #666;
+            margin: 0;
+            padding: 0;
+            text-align: left;
+            width: 100px;
+        }
+
+        .image-caption span {
+            display: block;
+            margin: 0;
+            padding: 0;
+        }
+
+        .image-container {
+            float: left;
+            margin: 0;
+            margin-right: 15px;
+            width: 100px;
+            text-align: left;
+            padding: 0;
+        }
+
+        /* Стили для контейнера с фото и текстом */
+        .photo-text-container.tank-katyusha,
+        .photo-text-container.holocaust,
+        .photo-text-container.ostarbeiter {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .photo-column {
+            flex: 0 0 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .photo-item {
+            text-align: center;
+        }
+
+        .photo-item img {
+            width: 100px;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .photo-item img[src="враж танк.JPG"],
+        .photo-item img[src="катюша.JPG"],
+        .photo-item img[src="yama.jpg"],
+        .photo-item img[src="ostarbeiter.jpg"] {
+            width: 300px;
+        }
+
+        .photo-item p {
+            font-style: italic;
+            font-size: 0.9em;
+            color: #666;
+            margin: 5px 0 0;
+            text-align: center;
+        }
+
+        .text-column {
+            flex: 1;
+            text-align: justify;
+            line-height: 1.6;
+        }
+
+        .text-column p {
+            margin: 0;
+        }
+
+        /* Стили для контейнера с фото слева */
+        .photo-text-container.ostarbeiter {
+            flex-direction: row;
+        }
+
+        .photo-text-container.ostarbeiter .photo-column {
+            order: -1; /* Помещает фото слева */
+        }
+
+        /* Мобильная адаптация */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            header {
+                padding: 20px 10px;
+            }
+
+            header h1 {
+                font-size: 2em;
+                white-space: normal;
+                word-break: break-word;
+            }
+
+            nav {
+                padding: 10px;
+            }
+
+            nav a {
+                margin: 0 10px;
+                font-size: 1em;
+                display: inline-block;
+            }
+
+            section {
+                padding: 20px 10px;
+                margin: 15px 10px;
+                max-width: 100%;
+            }
+
+            .info p,
+            .text-with-image p,
+            .text-column p {
+                text-align: justify;
+                font-size: 1em;
+                line-height: 1.4;
+                word-break: break-all;
+                white-space: normal;
+                margin: 0;
+                text-indent: 0;
+            }
+
+            .info h3 {
+                white-space: normal;
+                word-break: break-all;
+                margin-bottom: 0;
+                text-indent: 0;
+            }
+
+            .info h4 {
+                font-size: 1.3em;
+                white-space: normal;
+                word-break: break-all;
+                margin-bottom: 0;
+                text-indent: 0;
+            }
+
+            .info h3 span,
+            .info h4 span {
+                font-size: 1.2em;
+                white-space: normal;
+                word-break: break-all;
+                margin-bottom: 0;
+                text-indent: 0;
+            }
+
+            .image-container {
+                float: none;
+                margin: 0 auto 10px;
+                text-align: center;
+            }
+
+            .float-image {
+                float: none;
+                margin: 0 auto;
+            }
+
+            .image-caption {
+                text-align: center;
+                width: 100%;
+                max-width: 100px;
+                margin: 0 auto;
+            }
+
+            .text-with-image p {
+                clear: both;
+            }
+
+            .carousel {
+                max-width: 100%;
+                margin: 15px 10px;
+            }
+
+            .carousel-item img {
+                height: 200px;
+            }
+
+            .photo-text-container {
+                flex-direction: column;
+            }
+
+            .photo-column {
+                flex: none;
+                align-items: center;
+            }
+
+            .photo-text-container.ostarbeiter .photo-column {
+                order: 0; /* На мобильных устройствах фото сверху */
+            }
+
+            .photo-item img {
+                width: 80px;
+            }
+
+            .photo-item img[src="враж танк.JPG"],
+            .photo-item img[src="катюша.JPG"],
+            .photo-item img[src="yama.jpg"],
+            .photo-item img[src="ostarbeiter.jpg"] {
+                width: 240px;
+            }
+
+            .photo-item p {
+                font-size: 0.8em;
+            }
+        }
+        /* --- Исправления для правильных переносов и вертикальных кнопок (вставить в конец <style>) --- */
+
+/* Общий включённый перенос по слогам */
+html[lang="ru"], body, p, h1, h2, h3, h4, h5, h6,
+.info p, .text-with-image p, .text-column p, .info h3, .info h4 {
+    hyphens: auto !important;
+    -webkit-hyphens: auto !important;
+    -ms-hyphens: auto !important;
+    word-break: normal !important;       /* отменяем break-all */
+    overflow-wrap: break-word !important;
+}
+
+/* WebKit-улучшения (помогают в Safari/Chrome) */
+@supports (-webkit-hyphenate-limit-chars: 0) {
+    .info p, .text-with-image p, .text-column p, .info h3, .info h4 {
+        -webkit-hyphenate-limit-chars: 6 3 3 !important;
+        -webkit-hyphenate-limit-before: 3 !important;
+        -webkit-hyphenate-limit-after: 3 !important;
+    }
+}
+
+/* Мобильные переопределения — кнопки в столбик и усиление переносов */
+@media (max-width: 768px) {
+    /* Откатываем прежние правила, которые мешают переносам */
+    .info p,
+    .text-with-image p,
+    .text-column p,
+    .info h3,
+    .info h4,
+    .info h3 span,
+    .info h4 span {
+        word-break: normal !important;
+        overflow-wrap: break-word !important;
+        hyphens: auto !important;
+        -webkit-hyphens: auto !important;
+    }
+
+    /* Вертикальное расположение кнопок квиза */
+    .quiz-buttons {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 8px !important;
+    }
+
+    .quiz-buttons button {
+        width: 90% !important;
+        max-width: 320px !important;
+        display: block !important;
+        margin: 0 auto !important;
+    }
+}
+/* Центрирование подписей под изображениями и в галерее */
+.image-container,
+.image-container .image-caption,
+.photo-item,
+.photo-item p,
+.gallery .hero,
+.gallery .hero p,
+.hero p {
+    text-align: center !important;
+}
+
+/* Подпись рядом с плавающим изображением (обычная компактная подпись) */
+.image-caption {
+    width: 100px;           /* сохраняем текущую ширину на десктопе */
+    margin: 0 auto;         /* центрируем контейнер подписи */
+    display: block;
+    text-align: center !important;
+    word-break: normal;
+    white-space: normal;
+}
+
+/* Подписи под миниатюрами в блоке .photo-item */
+.photo-item {
+    display: block;
+    text-align: center !important;
+}
+
+.photo-item img {
+    display: block;
+    margin: 0 auto;
+}
+
+/* Текст-подпись под картинкой (gallery .hero p) — делаем немного отступ сверху */
+.gallery .hero p {
+    position: static !important;    /* убрать абсолютное позиционирование для нормального потока */
+    transform: none !important;
+    width: 100% !important;
+    background: transparent !important; /* если нужно, можно убрать фон затемнения */
+    color: inherit !important;          /* сохранить цвет */
+    margin-top: 8px;
+    padding: 0;
+    font-style: italic;
+    font-size: 0.95em;
+    box-shadow: none !important;
+}
+
+/* Если хочешь, чтобы hover-эффект сдвига подписи остался — используем отдельный класс.
+   Но текущая правка делает подписи нормальными элементами потока (внизу блока). */
+
+/* Галерея: сохраняем гибкость и центрирование при адаптации */
+.gallery {
+    align-items: start;
+}
+
+/* Для .hero (если используется overlay подпись) — оставляем центрирование и корректный вид на мобилке */
+.hero p {
+    text-align: center !important;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    padding: 8px 10px;
+    transform: translateY(0) !important;
+    transition: none !important;
+    box-sizing: border-box;
+}
+
+/* Мобильные корректировки */
+@media (max-width: 768px) {
+    .image-caption {
+        width: auto !important;
+        max-width: 320px;
+        margin: 0 auto 8px !important;
+        font-size: 0.9em;
+    }
+
+    .photo-item p,
+    .gallery .hero p,
+    .hero p {
+        font-size: 0.9em !important;
+        line-height: 1.3 !important;
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+        word-break: break-word !important;
+        hyphens: auto !important;
+    }
+
+    .photo-item img,
+    .hero img {
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* В случае, если .hero раньше использовал overlay, оставляем подпись видимой */
+    .hero:hover p {
+        transform: translateY(0) !important;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>ㅤㅤ</h1>
+    </header>
+
+    <nav>
+ <a href="index.html">Начало ВОВ</a>
+        <a href="occupation.html">Оккупация</a>
+        <a href="liberation.html">Освобождение</a>
+        <a href="victori.html">День Победы</a>
+    </nav>
+
+    <section id="home" class="loaded">
+        <div class="info">
+            <h4>ㅤㅤ Германский оккупационный режим на территории Беларуси в 1941—1944 гг.</h4>
+            <h3>ㅤㅤПлан «Ост». Германский «новый порядок».</h3>
+            <p>ㅤㅤНа территории Беларуси германские захватчики вводили «новый порядок» — систему военно-полицейских, политических, идеологических, экономических мероприятий, направленных на установление и поддержку оккупационного режима. Идейной основой такого порядка стала человеконенавистническая «расовая теория» нацистов. Согласно этой теории утверждались превосходство арийской расы над всеми другими, необходимость расширения «жизненного пространства» для немцев и их «право» на мировое господство.</p>
+            <p>ㅤㅤОтношение оккупантов к белорусам было определено в <strong>плане «Ост»</strong>. Им предусматривалось выселить 75 % белорусского населения с занимаемой территории, а остальные 25 % подлежали онемечиванию. Цыган и евреев, живших в Беларуси, ожидало полное истребление. В крупных городах Беларуси планировалось создать поселения для привилегированных слоев немецкого общества. В них на каждого человека «высшей германской расы» предполагалось оставить по два представителя «низшей расы» из местного населения.</p>
+            <p>ㅤㅤОккупанты грабили и жгли города и сёла. В Германию вывозились промышленное оборудование, сырье, лес и скот, культурно-исторические ценности. Уцелевшие предприятия передавались немецким фабрикантам и заводчикам, а земля — колонистам, бывшим помещикам. Все рабочие и служащие должны были явиться на свои рабочие места, а безработные — отметиться на бирже. Людей заставляли работать по 12—14 часов в сутки. Тех, кто отказывался, заключали в концлагеря, а инициаторов протестов расстреливали. Крестьян облагали непосильными налогами и сборами, взыскание которых сопровождалось карательными мерами.</p>
+            <h3>ㅤㅤПолитика геноцида населения Беларуси.</h3>
+            <p>ㅤㅤГлавным средством осуществления своих целей оккупанты сделали политику <strong>геноцида</strong>. Она была направлена на полное или частичное уничтожение групп населения по расовому, национальному, этническому, политическому либо религиозному признакам. Человек мог стать жертвой геноцида по разным мотивам: за принадлежность к коммунистам, лицам еврейской национальности, за любое неподчинение оккупационным властям. Смерть угрожала сотням тысяч людей. С германских солдат и офицеров снималась всякая ответственность за преступления на оккупированной территории.</p>
+            <div class="photo-text-container holocaust">
+                <div class="text-column">
+                    <p>ㅤㅤОдним из проявлений геноцида в отношении населения Беларуси являлось уничтожение евреев. Еврейское население Беларуси сгонялось в специальные места проживания — <strong>гетто</strong>. В Беларуси было создано свыше 110 гетто. Крупнейшие из них располагались в Минске, Бресте, Барановичах, Гродно, Гомеле. Теснота, голод, антисанитарные условия, тяжелый труд, издевательства, погромы, массовые убийства сопровождали жизнь в гетто. На свою одежду евреев заставили нашить специальный знак в виде шестиконечной звезды. В Минском гетто приняли смерть около 100 тыс. евреев, в том числе привезенных из Австрии, Германии, Польши и Чехословакии. Для обозначения массового истребления нацистами еврейского населения Европы в период Второй мировой войны используется термин «Холокост» (от греческого holokaustus — сожженный целиком). Всего за годы Великой Отечественной войны на белорусской земле погибло свыше 600 тыс. евреев, в том числе около 90 тыс. выходцев из стран Европы.</p>
+                    <p>ㅤㅤВ послевоенное время в Израиле было принято решение о создании Национального мемориала Катастрофы и героизма Яд Ваше´м (в переводе с иврита — «память и имя») и увековечении памяти <strong>Праведников народов мира</strong>. Так называют тех людей нееврейского происхождения, которые в годы Второй мировой войны спасали евреев. Их имена высекаются на Стене почета на Аллее Праведников в Иерусалиме. В Республике Беларусь насчитывается более 800 Праведников народов мира. Аллея Праведников народов мира создана и в Минске. В память о погибших на месте Минского гетто установлена скульптурная композиция «Яма».</p>
+                </div>
+                <div class="photo-column">
+                    <div class="photo-item">
+                        <p>ㅤㅤ</p>
+                        <p>ㅤㅤ</p>
+                        <p>ㅤㅤ</p>
+                        <img src="девочка.JPG" alt="девочка">
+                        <p>Еврейская девочка из гетто (на одежде — желтая шестиконечная звезда)</p>
+                    </div>
+                </div>
+            </div>
+            <p>ㅤㅤВ Беларуси было создано более 260 лагерей смерти, пять из которых располагались в Минске и недалеко от него. Один из таких лагерей — Тростенец, который по количеству уничтоженных (206 500 человек) находится на печальном четвертом месте после Освенцима (Аушвица), Майданека и Треблинки. Среди погибших там — узники Минского гетто, лица еврейской национальности, вывезенные из европейских стран, пленные красноармейцы, минские подпольщики и др. Людей расстреливали возле заранее вырытых рвов, а их тела закапывали и утрамбовывали гусеничным трактором.</p>
+            <p>ㅤㅤНа месте нацистского лагеря смерти Тростенец создан мемориальный комплекс. В его основу положена идея духовного единства людей разных вероисповеданий и национальностей, которых так жестоко лишили жизни. В мемориальном комплексе торжественно открыты монумент «Врата памяти» и памятник «Массив имен», посвященные тем, кто принял тут мученическую смерть. Тростенецкий мемориал является символом осуждения античеловеческой политики геноцида в отношении мирного населения.</p>
+            <p>ㅤㅤОккупанты проводили политику устрашения мирного населения Беларуси и учиняли многочисленные расправы над ним. Даже детей заставляли выполнять непосильную для них физическую работу, морили голодом, заключали в лагеря. Часто белорусских детей, особенно из детских домов, использовали в качестве доноров для обеспечения кровью раненых немецких солдат. В донорских лагерях детей кормили гнилой свеклой и похлебкой из костной муки, а у тех, кто еще держался на ногах, забирали кровь, сколько было возможно.</p>
+            <p>ㅤㅤПервый на Европейском континенте мемориальный комплекс, посвященный детям — жертвам войны, был открыт в поселке Красный Берег (Жлобинский район Гомельской области). Здесь оккупантами был создан сборный пункт для детей в возрасте от 8 до 14 лет, которых отправляли в Германию в качестве доноров.</p>
+            <p>ㅤㅤНа сегодняшний день установлены имена и фамилии только 15 из 1990 вывезенных, остальные остаются неизвестными. «Красный Берег» открывается бронзовой скульптурой девочки со вскинутыми над головой руками. За фигурой девочки — «мертвый класс» с пустыми белыми бетонными партами и школьной доской. На партах и возле ног худенькой девичьей фигурки посетители оставляют цветы и конфеты. А на каменной доске размещен текст предсмертного письма 15-летней девочки своему отцу.</p>
+            <p>ㅤㅤЗа время оккупации под видом борьбы против партизан оккупанты провели в Беларуси более 140 карательных экспедиций. После них целые районы превращались в «зоны пустыни». 22 марта 1943 г. были сожжены заживо все жители деревни Хатынь под Логойском. В огне погибли 149 человек, в том числе 75 детей, младшему из которых было семь недель. Трагическую судьбу Хатыни, сожженной вместе с жителями, разделили 628 деревень, 186 из которых так и не были восстановлены после войны. Хатынь стала символом трагедии белорусского народа в годы войны.</p>
+            <h3>ㅤㅤБелорусские остарбайтеры.</h3>
+     <div class="text-with-image">
+                <p>ㅤㅤ</p>
+                <div class="image-container">
+                    <img src="ост.JPG" alt="ост" class="ост">
+                    <p class="image-caption">
+                        <span>Нарукавный знак остарбайтера</span>
+                    </p>
+                </div>
+                    <p>ㅤㅤСоветских людей, особенно молодежь, насильственно вывозили на каторжные работы в Германию. Людям не позволяли даже попрощаться с близкими, не давали ничего брать с собой. Их вывозили в товарных вагонах. По нескольку дней они не получали еды и воды, а если их и кормили, то по нормам, установленным для советских военнопленных. Тех, кто уклонялся от отправки, расстреливали.</p>
+                    <p>ㅤㅤВ Германии таких людей называли <strong>остарбайтерами</strong> — восточными рабочими, лишив их не только имени, но и национальности. Они вынуждены были носить специальный нарукавный знак. Оказавшись на каторге, люди гибли от голода, болезней, издевательств, тяжелого труда. За время оккупации из Беларуси на принудительные работы в Германию и захваченные ею страны было вывезено почти 385 тыс. человек, в том числе более 24 тыс. детей. В основном забирали молодежь и наиболее трудоспособное население. По неполным данным, после разгрома нацистской Германии в Беларусь вернулось только 160 тыс. человек.</p>
+                </div>
+            </div>
+            <p>ㅤㅤТаким образом, германский оккупационный режим на территории Беларуси представлял собой человеконенавистническую политику, направленную на ликвидацию советского строя, угнетение и уничтожение людей.</p>
+        </div>
+    </section>
+
+   <div class="carousel">
+        <div class="carousel-inner" id="carouselInner">
+            <div class="carousel-item"><img src="освобождение.jpg" alt="Освобождение" onclick="location.href='liberation.html'"></div>
+            <div class="carousel-item"><img src="день.jpg" alt="День Победы" onclick="location.href='victori.html'"></div>
+            <div class="carousel-item"><img src="начало.jpg" alt="Начало ВОВ" onclick="location.href='index.html'"></div>
+            <div class="carousel-item"><img src="оккупация.jpg" alt="Оккупация" onclick="location.href='occupation.html'"></div>
+          </div>
+        <button class="carousel-button prev" onclick="prevSlide()">&#10094;</button>
+        <button class="carousel-button next" onclick="nextSlide()">&#10095;</button>
+    </div>
+
+    <footer>
+        &copy; 2025 Вечная память
+    </footer>
+
+    <script>
+        // Логика карусели
+        let currentSlide = 0;
+        function showSlide(index) {
+            const inner = document.getElementById('carouselInner');
+            const slides = inner.children.length;
+            if (index >= slides) currentSlide = 0;
+            if (index < 0) currentSlide = slides - 1;
+            inner.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+
+        // Показать первый слайд при загрузке страницы
+        window.onload = function() {
+            showSlide(currentSlide);
+        };
+    </script>
+    
+</body>
+</html>
