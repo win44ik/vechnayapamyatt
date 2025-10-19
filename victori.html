@@ -77,7 +77,8 @@
         .info h3 {
             font-size: 1.6em;
         }
- /* Галерея */
+
+        /* Галерея */
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -95,7 +96,7 @@
         .hero img {
             width: 100%;
             height: 200px;
-            object-fit: contain; /* Изменено на contain для предотвращения обрезки */
+            object-fit: contain;
             transition: transform 0.5s, filter 0.5s;
         }
 
@@ -126,6 +127,7 @@
         .hero:hover p {
             transform: translateY(0);
         }
+
         /* Дерево памяти */
         #tree {
             height: 400px;
@@ -134,6 +136,7 @@
             position: relative;
             border-radius: 10px;
             overflow: hidden;
+            touch-action: none; /* Prevents default touch behaviors like scrolling */
         }
 
         .node {
@@ -156,6 +159,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            user-select: none; /* Prevents text selection during drag */
         }
 
         .node:active {
@@ -430,159 +434,143 @@
                 font-size: 0.8em;
             }
         }
-        /* --- Исправления для правильных переносов и вертикальных кнопок (вставить в конец <style>) --- */
 
-/* Общий включённый перенос по слогам */
-html[lang="ru"], body, p, h1, h2, h3, h4, h5, h6,
-.info p, .text-with-image p, .text-column p, .info h3, .info h4 {
-    hyphens: auto !important;
-    -webkit-hyphens: auto !important;
-    -ms-hyphens: auto !important;
-    word-break: normal !important;       /* отменяем break-all */
-    overflow-wrap: break-word !important;
-}
+        /* --- Исправления для правильных переносов и вертикальных кнопок --- */
+        html[lang="ru"], body, p, h1, h2, h3, h4, h5, h6,
+        .info p, .text-with-image p, .text-column p, .info h3, .info h4 {
+            hyphens: auto !important;
+            -webkit-hyphens: auto !important;
+            -ms-hyphens: auto !important;
+            word-break: normal !important;
+            overflow-wrap: break-word !important;
+        }
 
-/* WebKit-улучшения (помогают в Safari/Chrome) */
-@supports (-webkit-hyphenate-limit-chars: 0) {
-    .info p, .text-with-image p, .text-column p, .info h3, .info h4 {
-        -webkit-hyphenate-limit-chars: 6 3 3 !important;
-        -webkit-hyphenate-limit-before: 3 !important;
-        -webkit-hyphenate-limit-after: 3 !important;
-    }
-}
+        @supports (-webkit-hyphenate-limit-chars: 0) {
+            .info p, .text-with-image p, .text-column p, .info h3, .info h4 {
+                -webkit-hyphenate-limit-chars: 6 3 3 !important;
+                -webkit-hyphenate-limit-before: 3 !important;
+                -webkit-hyphenate-limit-after: 3 !important;
+            }
+        }
 
-/* Мобильные переопределения — кнопки в столбик и усиление переносов */
-@media (max-width: 768px) {
-    /* Откатываем прежние правила, которые мешают переносам */
-    .info p,
-    .text-with-image p,
-    .text-column p,
-    .info h3,
-    .info h4,
-    .info h3 span,
-    .info h4 span {
-        word-break: normal !important;
-        overflow-wrap: break-word !important;
-        hyphens: auto !important;
-        -webkit-hyphens: auto !important;
-    }
+        @media (max-width: 768px) {
+            .info p,
+            .text-with-image p,
+            .text-column p,
+            .info h3,
+            .info h4,
+            .info h3 span,
+            .info h4 span {
+                word-break: normal !important;
+                overflow-wrap: break-word !important;
+                hyphens: auto !important;
+                -webkit-hyphens: auto !important;
+            }
 
-    /* Вертикальное расположение кнопок квиза */
-    .quiz-buttons {
-        flex-direction: column !important;
-        align-items: center !important;
-        gap: 8px !important;
-    }
+            .quiz-buttons {
+                flex-direction: column !important;
+                align-items: center !important;
+                gap: 8px !important;
+            }
 
-    .quiz-buttons button {
-        width: 90% !important;
-        max-width: 320px !important;
-        display: block !important;
-        margin: 0 auto !important;
-    }
-}
-/* Центрирование подписей под изображениями и в галерее */
-.image-container,
-.image-container .image-caption,
-.photo-item,
-.photo-item p,
-.gallery .hero,
-.gallery .hero p,
-.hero p {
-    text-align: center !important;
-}
+            .quiz-buttons button {
+                width: 90% !important;
+                max-width: 320px !important;
+                display: block !important;
+                margin: 0 auto !important;
+            }
+        }
 
-/* Подпись рядом с плавающим изображением (обычная компактная подпись) */
-.image-caption {
-    width: 100px;           /* сохраняем текущую ширину на десктопе */
-    margin: 0 auto;         /* центрируем контейнер подписи */
-    display: block;
-    text-align: center !important;
-    word-break: normal;
-    white-space: normal;
-}
+        .image-container,
+        .image-container .image-caption,
+        .photo-item,
+        .photo-item p,
+        .gallery .hero,
+        .gallery .hero p,
+        .hero p {
+            text-align: center !important;
+        }
 
-/* Подписи под миниатюрами в блоке .photo-item */
-.photo-item {
-    display: block;
-    text-align: center !important;
-}
+        .image-caption {
+            width: 100px;
+            margin: 0 auto;
+            display: block;
+            text-align: center !important;
+            word-break: normal;
+            white-space: normal;
+        }
 
-.photo-item img {
-    display: block;
-    margin: 0 auto;
-}
+        .photo-item {
+            display: block;
+            text-align: center !important;
+        }
 
-/* Текст-подпись под картинкой (gallery .hero p) — делаем немного отступ сверху */
-.gallery .hero p {
-    position: static !important;    /* убрать абсолютное позиционирование для нормального потока */
-    transform: none !important;
-    width: 100% !important;
-    background: transparent !important; /* если нужно, можно убрать фон затемнения */
-    color: inherit !important;          /* сохранить цвет */
-    margin-top: 8px;
-    padding: 0;
-    font-style: italic;
-    font-size: 0.95em;
-    box-shadow: none !important;
-}
+        .photo-item img {
+            display: block;
+            margin: 0 auto;
+        }
 
-/* Если хочешь, чтобы hover-эффект сдвига подписи остался — используем отдельный класс.
-   Но текущая правка делает подписи нормальными элементами потока (внизу блока). */
+        .gallery .hero p {
+            position: static !important;
+            transform: none !important;
+            width: 100% !important;
+            background: transparent !important;
+            color: inherit !important;
+            margin-top: 8px;
+            padding: 0;
+            font-style: italic;
+            font-size: 0.95em;
+            box-shadow: none !important;
+        }
 
-/* Галерея: сохраняем гибкость и центрирование при адаптации */
-.gallery {
-    align-items: start;
-}
+        .gallery {
+            align-items: start;
+        }
 
-/* Для .hero (если используется overlay подпись) — оставляем центрирование и корректный вид на мобилке */
-.hero p {
-    text-align: center !important;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    background: rgba(0,0,0,0.7);
-    padding: 8px 10px;
-    transform: translateY(0) !important;
-    transition: none !important;
-    box-sizing: border-box;
-}
+        .hero p {
+            text-align: center !important;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.7);
+            padding: 8px 10px;
+            transform: translateY(0) !important;
+            transition: none !important;
+            box-sizing: border-box;
+        }
 
-/* Мобильные корректировки */
-@media (max-width: 768px) {
-    .image-caption {
-        width: auto !important;
-        max-width: 320px;
-        margin: 0 auto 8px !important;
-        font-size: 0.9em;
-    }
+        @media (max-width: 768px) {
+            .image-caption {
+                width: auto !important;
+                max-width: 320px;
+                margin: 0 auto 8px !important;
+                font-size: 0.9em;
+            }
 
-    .photo-item p,
-    .gallery .hero p,
-    .hero p {
-        font-size: 0.9em !important;
-        line-height: 1.3 !important;
-        padding-left: 8px !important;
-        padding-right: 8px !important;
-        word-break: break-word !important;
-        hyphens: auto !important;
-    }
+            .photo-item p,
+            .gallery .hero p,
+            .hero p {
+                font-size: 0.9em !important;
+                line-height: 1.3 !important;
+                padding-left: 8px !important;
+                padding-right: 8px !important;
+                word-break: break-word !important;
+                hyphens: auto !important;
+            }
 
-    .photo-item img,
-    .hero img {
-        display: block;
-        margin: 0 auto;
-        max-width: 100%;
-        height: auto;
-    }
+            .photo-item img,
+            .hero img {
+                display: block;
+                margin: 0 auto;
+                max-width: 100%;
+                height: auto;
+            }
 
-    /* В случае, если .hero раньше использовал overlay, оставляем подпись видимой */
-    .hero:hover p {
-        transform: translateY(0) !important;
-    }
-}
-
+            .hero:hover p {
+                transform: translateY(0) !important;
+            }
+        }
     </style>
 </head>
 <body onload="loadContent()">
@@ -591,7 +579,7 @@ html[lang="ru"], body, p, h1, h2, h3, h4, h5, h6,
     </header>
 
     <nav>
-   <a href="index.html">Начало ВОВ</a>
+        <a href="index.html">Начало ВОВ</a>
         <a href="occupation.html">Оккупация</a>
         <a href="liberation.html">Освобождение</a>
         <a href="victori.html">День Победы</a>
@@ -603,9 +591,7 @@ html[lang="ru"], body, p, h1, h2, h3, h4, h5, h6,
             <p>ㅤㅤПеретаскивайте узлы, чтобы создать свое дерево памяти. Добавьте новые узлы с помощью формы ниже, с помощью кнопки "Очистить дерево" можно убрать все узлы.</p>
             <div id="tree">
                 <div class="node" style="top: 50px; left: 100px;">Заслонов Константин</div>
-                <div class="node" style="top: 150px; left: 200px;">Талахин Виктор</div>
-                <div class="node" style="top: 250px; left: 300px;">Маресьев Алексей</div>
-                <div class="node" style="top: 100px; left: 400px;">Матросов Александр</div>
+                <div class="node" style="top: 200px; left: 100px;">Талахин Виктор</div>
             </div>
             <div class="add-form">
                 <input type="text" id="nodeName" placeholder="Имя предка">
@@ -616,36 +602,35 @@ html[lang="ru"], body, p, h1, h2, h3, h4, h5, h6,
             <h3>ㅤㅤПразднование Дня Победы в Беларуси</h3>
             <p>ㅤㅤ</p>
             <p>ㅤㅤ<strong>День Победы (9 мая)</strong> — один из главных государственных праздников Республики Беларусь, установленный Указом Президента <strong>№ 157</strong> от 26 марта 1998 года. Этот день отмечается как нерабочий и посвящен памяти о победе Советского Союза над нацистской Германией в Великой Отечественной войне 1941–1945 годов. Для белорусов он символизирует национальную гордость, дань уважения ветеранам, труженикам тыла, партизанам и всем, кто приближал Победу. Война унесла жизни каждого третьего жителя Беларуси, уничтожив тысячи деревень и городов, но народ выстоял и внес решающий вклад в общую победу.</p>
-            <p>ㅤㅤПразднование сочетает официальные мероприятия, патриотические акции и народные гуляния, подчеркивая темы памяти, единства и мира. Вот ключевые аспекты, основанные на описаниях из доступных источников (включая ссылки на Википедию и официальные материалы):</p>
+            <p>ㅤㅤПразднование сочетает официальные мероприятия, патриотические акции и народные гуляния, подчеркивая темы памяти, единства и мира. </p>
             <p>ㅤㅤУтро начинается с церемоний на мемориалах и у Вечных огней. В Минске президент Александр Лукашенко и официальные лица возлагают цветы у мемориального комплекса "Хатынь" (символ трагедии оккупации) и на площади Победы. По всей стране проходят подобные акции в городах-героях, таких как Минск и Брест.</p>
             <p>ㅤㅤЦентральное событие — парад на площади Победы в Минске под руководством президента. В нем участвуют тысячи военнослужащих, техника, авиация и ветераны. Парад посвящен подвигу белорусского народа, с акцентом на партизанское движение (в Беларуси действовали около 30 партизанских зон).</p>
             <p>ㅤㅤВ 17:55 (по минскому времени) вся страна соблюдает минуту молчания в память о жертвах войны (около 27 млн советских граждан, включая миллионы белорусов).</p>
             <p>ㅤㅤС 11:00 на площади Победы и в других городах люди собираются с портретами родственников-участников войны, формируя "Бессмертный полк". Это массовая акция памяти, собирающая десятки тысяч участников.</p>
-       <p>ㅤㅤВ Беларуси проживает около 800 ветеранов (по данным на 2025 год), включая 427 участников и инвалидов войны. Им вручают награды, организуют приемы и медицинскую помощь. Государство обеспечивает системную поддержку: пенсии, жилье и льготы. Ветераны — почетные гости парадов и концертов.</p>
-        <p>ㅤㅤБелпочта позволяет бесплатно отправлять поздравительные карточки ветеранам по всей стране.</p>
-        <p>ㅤㅤВечером — открытые концерты на площадях, в парках и у музеев. В Минске более 25 мероприятий: зажигательные выступления, солдатская каша, квесты и интерактивные экспозиции в Белорусском государственном музее истории Великой Отечественной войны. В регионах (Гродно, Брест) — реконструкции партизанского быта и фольклорные программы.</p>
-        <p>ㅤㅤКульминация — праздничный салют в 22:00 над рекой Свислочь в Минске и в областных центрах. Город украшают флагами, георгиевскими лентами и баннерами.</p>
-        <p>ㅤㅤВ областях проходят около 200 патриотических мероприятий: забеги (как Минский полумарафон), выставки и уроки истории в школах. В 2025 году, к 80-летию Победы, акцент на чествование "детей войны" и восстановление страны из руин.</p>
-        <p>ㅤㅤПраздник подчеркивает уроки войны: мужество, упорство и единство. В последние годы (с 2020-х) акцент усиливается на межнациональном единстве с Россией и антифашистской тематике, без значительных изменений в формате. Это не только воспоминание о прошлом, но и вдохновение для настоящего — как отметил президент Лукашенко, Победа "вселяет веру в то, что белорусы способны все преодолеть".</p>
-    </div>
-                <div class="gallery">
-                <div class="hero"><img src="возложение.JPG" alt="Возложение цветов у монумента на площади Победы в Минске">
+            <p>ㅤㅤВ Беларуси проживает около 800 ветеранов (по данным на 2025 год), включая 427 участников и инвалидов войны. Им вручают награды, организуют приемы и медицинскую помощь. Государство обеспечивает системную поддержку: пенсии, жилье и льготы. Ветераны — почетные гости парадов и концертов.</p>
+            <p>ㅤㅤБелпочта позволяет бесплатно отправлять поздравительные карточки ветеранам по всей стране.</p>
+            <p>ㅤㅤВечером — открытые концерты на площадях, в парках и у музеев. В Минске более 25 мероприятий: зажигательные выступления, солдатская каша, квесты и интерактивные экспозиции в Белорусском государственном музее истории Великой Отечественной войны. В регионах (Гродно, Брест) — реконструкции партизанского быта и фольклорные программы.</p>
+            <p>ㅤㅤКульминация — праздничный салют в 22:00 над рекой Свислочь в Минске и в областных центрах. Город украшают флагами, георгиевскими лентами и баннерами.</p>
+            <p>ㅤㅤВ областях проходят около 200 патриотических мероприятий: забеги (как Минский полумарафон), выставки и уроки истории в школах. В 2025 году, к 80-летию Победы, акцент на чествование "детей войны" и восстановление страны из руин.</p>
+            <p>ㅤㅤПраздник подчеркивает уроки войны: мужество, упорство и единство. В последние годы (с 2020-х) акцент усиливается на межнациональном единстве с Россией и антифашистской тематике, без значительных изменений в формате. Это не только воспоминание о прошлом, но и вдохновение для настоящего — как отметил президент Лукашенко, Победа "вселяет веру в то, что белорусы способны все преодолеть".</p>
+        </div>
+        <div class="gallery">
+            <div class="hero"><img src="возложение.JPG" alt="Возложение цветов у монумента на площади Победы в Минске">
                 <p>Возложение цветов у монумента на площади Победы в Минске</p></div>
-                <div class="hero"><img src="помнит.JPG" alt="Акция Беларусь помнит">
+            <div class="hero"><img src="помнит.JPG" alt="Акция Беларусь помнит">
                 <p>Акция "Беларусь помнит"</p></div>
-                <div class="hero"><img src="салют.JPG" alt="Праздничный салют">
+            <div class="hero"><img src="салют.JPG" alt="Праздничный салют">
                 <p>Праздничный салют</p></div>
-            </div>
-            <p>ㅤㅤВ послевоенное время на 21-м километре шоссе Минск — Москва был воздвигнут величественный Курган Славы в честь воинов четырех фронтов, освобождавших Беларусь. В том месте, где начиналась наступательная операция «Багратион» (деревня Раковичи Светлогорского района Гомельской области), состоялось торжественное открытие мемориала.</p>
-    </div>
-        </section>
-   <div class="carousel">
+        </div>
+        <p>ㅤㅤВ послевоенное время на 21-м километре шоссе Минск — Москва был воздвигнут величественный Курган Славы в честь воинов четырех фронтов, освобождавших Беларусь. В том месте, где начиналась наступательная операция «Багратион» (деревня Раковичи Светлогорского района Гомельской области), состоялось торжественное открытие мемориала.</p>
+    </section>
+    <div class="carousel">
         <div class="carousel-inner" id="carouselInner">
             <div class="carousel-item"><img src="начало.jpg" alt="Начало ВОВ" onclick="location.href='index.html'"></div>
             <div class="carousel-item"><img src="оккупация.jpg" alt="Оккупация" onclick="location.href='occupation.html'"></div>
             <div class="carousel-item"><img src="освобождение.jpg" alt="Освобождение" onclick="location.href='liberation.html'"></div>
             <div class="carousel-item"><img src="день.jpg" alt="День Победы" onclick="location.href='victori.html'"></div>
-         </div>
+        </div>
         <button class="carousel-button prev" onclick="prevSlide()">&#10094;</button>
         <button class="carousel-button next" onclick="nextSlide()">&#10095;</button>
     </div>
@@ -671,7 +656,9 @@ html[lang="ru"], body, p, h1, h2, h3, h4, h5, h6,
                 let isDragging = false;
                 let startX, startY, initialX, initialY;
 
+                // Mouse events
                 node.addEventListener('mousedown', (e) => {
+                    e.preventDefault(); // Prevent default behavior
                     isDragging = true;
                     startX = e.clientX;
                     startY = e.clientY;
@@ -689,6 +676,33 @@ html[lang="ru"], body, p, h1, h2, h3, h4, h5, h6,
                 });
 
                 document.addEventListener('mouseup', () => {
+                    if (isDragging) {
+                        isDragging = false;
+                    }
+                });
+
+                // Touch events
+                node.addEventListener('touchstart', (e) => {
+                    e.preventDefault(); // Prevent default touch behavior
+                    isDragging = true;
+                    const touch = e.touches[0];
+                    startX = touch.clientX;
+                    startY = touch.clientY;
+                    initialX = node.offsetLeft;
+                    initialY = node.offsetTop;
+                });
+
+                document.addEventListener('touchmove', (e) => {
+                    if (isDragging) {
+                        const touch = e.touches[0];
+                        const dx = touch.clientX - startX;
+                        const dy = touch.clientY - startY;
+                        node.style.left = `${initialX + dx}px`;
+                        node.style.top = `${initialY + dy}px`;
+                    }
+                });
+
+                document.addEventListener('touchend', () => {
                     if (isDragging) {
                         isDragging = false;
                     }
